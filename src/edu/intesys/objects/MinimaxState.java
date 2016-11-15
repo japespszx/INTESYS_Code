@@ -54,12 +54,4 @@ public abstract class MinimaxState extends State {
 	public abstract boolean isMinNode();
 
 	public abstract boolean isLeaf();
-
-	public void minimax() {
-		if (this.isLeaf()) {
-			this.computeScore();
-		} else {
-			this.getNextStates(); //getNextStates will work differently here
-		}
-	}
 }
