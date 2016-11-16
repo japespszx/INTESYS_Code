@@ -2,6 +2,7 @@ package edu.intesys.main;
 
 import edu.intesys.objects.MinimaxState;
 import edu.intesys.objects.State;
+import edu.intesys.objects.TicTacToeState;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class Main {
 //		m.Search("Heuristic", new MastermindState("0941"));
 //		m.Search("A*", new MastermindState("0941"));
 
+		m.test();
 	}
 
 	void Search(String searchType, State init) {
@@ -138,8 +140,6 @@ public class Main {
 			visitedList.add(currState);
 			exploreList.remove(exploreList.size() - 1);
 
-
-
 			if (((MinimaxState)currState).isLeaf()) {
 				((MinimaxState)currState).computeScore();
 			} else {
@@ -159,5 +159,19 @@ public class Main {
 //		visitedList.forEach(State::print);
 		System.out.println("Nodes visited: " + visitedList.size());
 		System.out.println("Moves to goal: " + finalPath.size());
+	}
+
+	void test(){
+		String a = "OOO";
+		String b = "X-X";
+		String c = "-X-";
+		String[] grid = new String[3];
+		grid[0] = a;
+		grid[1] = b;
+		grid[2] = c;
+
+		TicTacToeState ttt = new TicTacToeState(grid);
+
+		System.out.println(ttt.isLeaf());
 	}
 }

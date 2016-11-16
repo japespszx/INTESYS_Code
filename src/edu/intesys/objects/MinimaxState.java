@@ -8,17 +8,28 @@ import java.util.ArrayList;
 public abstract class MinimaxState extends State {
 	private int numChildren = 0;
 	private int maxDepth;
+	private boolean isPruned;
 
 	public MinimaxState(State parent, State goal, int maxDepth) {
 		super(parent, goal);
 		this.maxDepth = maxDepth;
+		this.isPruned = false;
 	}
 
 	public int getMaxDepth() {
 		return maxDepth;
 	}
 
+	public boolean isPruned() {
+		return isPruned;
+	}
+
+	public void prune() {
+		isPruned = true;
+	}
+
 	@Override
+
 	public ArrayList<State> getNextStates() {
 		return null;
 	}

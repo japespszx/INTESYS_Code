@@ -26,6 +26,16 @@ public class TicTacToeState extends MinimaxState {
 		this.scoreSet();
 	}
 
+	public TicTacToeState(String[] grid) {
+		super(null, null, -1);
+
+		for (int i = 0; i < grid.length; i++) {
+			this.grid[i] = grid[i].toCharArray();
+		}
+
+		this.scoreSet();
+	}
+
 	@Override
 	public ArrayList<State> getNextStates() {
 		ArrayList<State> nextStates = new ArrayList<>();
@@ -86,6 +96,25 @@ public class TicTacToeState extends MinimaxState {
 	@Override
 	public void computeScore() {
 		//TODO computations
+		for (int i = 0; i < 3; i++) {
+			if (grid[i][0] == 'x' && grid[i][1] == 'x' && grid[i][2] == 'x'
+					|| grid[0][i] == 'x' && grid[1][i] == 'x' && grid[2][i] == 'x') {
+				this.setScoreMinimax(-100);
+				break;
+			}
+
+			if(grid[i][0] == 'o' && grid[i][1] == 'o' && grid[i][2] == 'o'
+			        || grid[0][i] == 'o' && grid[1][i] == 'o' && grid[2][i] == 'o') {
+				this.setScoreMinimax(100);
+				break;
+			}
+		}
+
+		if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x') {
+			this.setScoreMinimax(-100);
+		} else if (grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o') {
+			this.setScoreMinimax(100);
+		}
 
 		this.propagateScore();
 	}
@@ -123,6 +152,9 @@ public class TicTacToeState extends MinimaxState {
 
 		if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x'
 				|| grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o')
+			return true;
+
+		if (this.getDepth() == this.getMaxDepth())
 			return true;
 
 		for (int i = 0; i < grid.length; i++) {
