@@ -49,6 +49,10 @@ public class Main {
 //		m.Search("Heuristic", new MastermindState("0941"));
 //		m.Search("A*", new MastermindState("0941"));
 
+//		m.Minimax("", new TicTacToeState(new String[]{
+//				"oo-",
+//				"x-x",
+//				"---"}));
 		m.test();
 	}
 
@@ -140,16 +144,18 @@ public class Main {
 			visitedList.add(currState);
 			exploreList.remove(exploreList.size() - 1);
 
-			if (((MinimaxState)currState).isLeaf()) {
-				((MinimaxState)currState).computeScore();
+			if (((MinimaxState) currState).isLeaf()) {
+				((MinimaxState) currState).computeScore();
 			} else {
 				ArrayList<State> nextStates;
 
 				switch (searchType) {
-					default: nextStates = currState.getNextStates();
+					default:
+						nextStates = currState.getNextStates();
 				}
 
 				for (State s : nextStates) {
+//					System.out.println(!visitedList.contains(s) + "" + !exploreList.contains(s) + s.isValid());
 					if (!visitedList.contains(s) && !exploreList.contains(s) && s.isValid())
 						exploreList.add(s);
 				}
@@ -161,17 +167,27 @@ public class Main {
 		System.out.println("Moves to goal: " + finalPath.size());
 	}
 
-	void test(){
-		String a = "OOO";
-		String b = "X-X";
-		String c = "-X-";
+	void test() {
+		String a = "ooo";
+		String b = "x-x";
+		String c = "-xx";
 		String[] grid = new String[3];
 		grid[0] = a;
 		grid[1] = b;
 		grid[2] = c;
 
+		String d = "ooo";
+		String e = "x-x";
+		String f = "-xx";
+		String[] grid2 = new String[3];
+		grid[0] = d;
+		grid[1] = e;
+		grid[2] = f;
+
 		TicTacToeState ttt = new TicTacToeState(grid);
+		TicTacToeState ttt2 = new TicTacToeState(grid);
 
 		System.out.println(ttt.isLeaf());
+		System.out.println(ttt.equals(ttt2));
 	}
 }

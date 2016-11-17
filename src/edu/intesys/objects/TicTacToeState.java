@@ -49,7 +49,7 @@ public class TicTacToeState extends MinimaxState {
 
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (newGrid[i][j] == ' ') {
+				if (newGrid[i][j] == '-') {
 					newGrid[i][j] = ch;
 
 					nextStates.add(new TicTacToeState(this, newGrid, this.getMaxDepth()));
@@ -96,26 +96,33 @@ public class TicTacToeState extends MinimaxState {
 	@Override
 	public void computeScore() {
 		//TODO computations
-		for (int i = 0; i < 3; i++) {
-			if (grid[i][0] == 'x' && grid[i][1] == 'x' && grid[i][2] == 'x'
-					|| grid[0][i] == 'x' && grid[1][i] == 'x' && grid[2][i] == 'x') {
+
+		if (this.isMinNode()) {
+			for (int i = 0; i < 3; i++) {
+				if (grid[i][0] == 'x' && grid[i][1] == 'x' && grid[i][2] == 'x'
+						|| grid[0][i] == 'x' && grid[1][i] == 'x' && grid[2][i] == 'x') {
+					this.setScoreMinimax(-100);
+					break;
+				}
+
+				if (grid[i][0] == 'o' && grid[i][1] == 'o' && grid[i][2] == 'o'
+						|| grid[0][i] == 'o' && grid[1][i] == 'o' && grid[2][i] == 'o') {
+					this.setScoreMinimax(100);
+					break;
+				}
+			}
+
+
+			if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x') {
 				this.setScoreMinimax(-100);
-				break;
-			}
-
-			if(grid[i][0] == 'o' && grid[i][1] == 'o' && grid[i][2] == 'o'
-			        || grid[0][i] == 'o' && grid[1][i] == 'o' && grid[2][i] == 'o') {
+			} else if (grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o') {
 				this.setScoreMinimax(100);
-				break;
 			}
-		}
 
-		if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x') {
-			this.setScoreMinimax(-100);
-		} else if (grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o') {
-			this.setScoreMinimax(100);
-		}
 
+		} else {
+
+		}
 		this.propagateScore();
 	}
 
@@ -151,15 +158,14 @@ public class TicTacToeState extends MinimaxState {
 		}
 
 		if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x'
-				|| grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o')
-			return true;
-
-		if (this.getDepth() == this.getMaxDepth())
+				|| grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o'
+				|| grid[0][2] == 'x' && grid[1][1] == 'x' && grid[2][0] == 'x'
+				|| grid[0][2] == 'o' && grid[1][1] == 'o' && grid[2][0] == 'o')
 			return true;
 
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j] == ' ')
+				if (grid[i][j] == '-')
 					return false;
 			}
 		}
